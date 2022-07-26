@@ -13,7 +13,7 @@ class ToDoListProvider extends ChangeNotifier{
   final List<ToDoList>_todolists=[
     ToDoList(title: "Muhammad", addtodo: [ToDo(name: "to-do")], createdListAt: DateTime.now() )
   ];
-  final List<List<ToDo>> _todo=todolist.map((e) => e.addtodo).toList();
+
   DateTime selectTime=DateTime.now();
 
 
@@ -21,9 +21,9 @@ class ToDoListProvider extends ChangeNotifier{
     return UnmodifiableListView(_todolists);
   }
 
-  void addTask(title,todolistsContents,createdAt){
-    final List<ToDo> todo=_todo.add(todolistsContents);
-    final note=ToDoList(title: title, addtodo: todo,createdListAt: createdAt);
+  void addTask(title, todolistsContents,createdAt){
+    _todolists.map((e) => e.addtodo.add(todolistsContents)).toList();
+    final note=ToDoList(title: title, addtodo: todolistsContents,createdListAt: createdAt);
     _todolists.add(note);
     notifyListeners();
   }
