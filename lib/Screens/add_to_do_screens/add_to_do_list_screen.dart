@@ -7,7 +7,6 @@ import 'package:note_to_do/Widgets/to_do/addToDo.dart';
 import 'package:note_to_do/Widgets/to_do/add_to_do_list.dart';
 import 'package:provider/provider.dart';
 
-import '../../Providers/to_do_provider.dart';
 import '../../constants/styles.dart';
 
 class AddToDoListScreen extends StatelessWidget {
@@ -18,11 +17,12 @@ class AddToDoListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController title = TextEditingController();
-    title.text = toDoLists?.title ?? "";
-    DateTime now = toDoLists?.createdListAt ?? DateTime.now();
-    var formatter = DateFormat("yyy-MM-dd");
-    return Scaffold(
+    return Consumer<ToDoListProvider>(builder: (BuildContext context, state, Widget? child) {
+      final TextEditingController title = TextEditingController();
+      title.text = toDoLists?.title ?? "";
+      DateTime now = toDoLists?.createdListAt ?? DateTime.now();
+      var formatter = DateFormat("yyy-MM-dd");
+      return Scaffold(
       appBar: AppBar(
         title: const Text(
           "NotePad",
@@ -32,7 +32,7 @@ class AddToDoListScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
           IconButton(
               onPressed: () {
-                Provider.of<ToDoListProvider>(context, listen: false).addTask(title.text,toDoLists?.addtodo,now
+                state.addTask(title.text,state.todolist[state.taskIndex].addtodo,now,state.taskIndex
                 );
                 Navigator.pop(context);
               },
@@ -44,7 +44,7 @@ class AddToDoListScreen extends StatelessWidget {
           Expanded(
             flex: 0,
             child: Text(
-              "Total Todos- ${Provider.of<ToDoListProvider>(context).todolist.map((e) => e.addtodo.length)}",
+              "Total Todos- ${state.todolist[state.taskIndex].addtodo.length ?? 0}",//Provider.of<ToDoListProvider>(context).todolist.map((e) => e.addtodo.length)
               style: const TextStyle(fontSize: 20),
             ),
           ),
@@ -86,7 +86,7 @@ class AddToDoListScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-           Expanded(flex: 2, child:  const AddToDoList() ),
+           const Expanded(flex: 2, child:  AddToDoList() ),
           const Align(alignment: Alignment.bottomCenter, child: AddToDo())
         ],
       ),
@@ -101,5 +101,6 @@ class AddToDoListScreen extends StatelessWidget {
       //     child: const Icon(Icons.add),
       //   ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+    });
   }
 }

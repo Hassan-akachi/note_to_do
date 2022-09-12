@@ -3,7 +3,6 @@ import 'package:note_to_do/Providers/to_do_list_provider.dart';
 import 'package:note_to_do/Widgets/to_do/add_to_do_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../Providers/to_do_provider.dart';
 
 class AddToDoList extends StatelessWidget {
 
@@ -13,14 +12,15 @@ class AddToDoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ToDoListProvider>(builder: (BuildContext context, state, Widget? child) {
       return Scrollbar(
-        thumbVisibility: true,
         child: Align(alignment: Alignment.topCenter,
           child: ListView.builder(
             padding: EdgeInsets.zero,
             reverse: true,
             shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              final todo =state.todolist.map((e) => e.addtodo[index]).toList();
+              final todo =state.todolist[state.taskIndex].addtodo?[index];
+              //state.todolist.map((e) => e.addtodo[index]).toList();
 
               return Dismissible(
                 background: Row(
@@ -40,16 +40,16 @@ class AddToDoList extends StatelessWidget {
                   ],
                 ),
                 onDismissed: (direction) {
-                  state.deleteTodo(todo[index]);
+                  state.deleteTodo(todo!);
                 },
-                key: Key(todo[index].name),
+                key: UniqueKey(),
                 child: ToDoWidget(
-                  toggleCheck:(value)=> state.updateTodo(todo[index]),
-                  toDo: todo[index],
+                  toggleCheck:(value)=> state.updateTodo(todo!),
+                  toDo: todo,
                 ),
               );
             },
-            itemCount: state.todolist.map((e) => e.addtodo).toList().length,
+            itemCount: state.todolist[state.taskIndex].addtodo.length,
           ),
         ),
       );

@@ -8,8 +8,10 @@ import 'package:note_to_do/Models/note.dart';
 
 class NoteProvider extends ChangeNotifier{
 
+  int noteIndex = 0;
+
   final List<Notes>_notes=[
-    Notes(title: "Muhammad", notesContents: "notesContents")
+    Notes(title: "Muhammad", notesContents: "notesContents", id: 1)
   ];
   DateTime selectTime=DateTime.now();
 
@@ -18,10 +20,17 @@ class NoteProvider extends ChangeNotifier{
     return UnmodifiableListView(_notes);
   }
 
-  void addTask(title,notesContents){
-    final note=Notes(title: title, notesContents: notesContents);
-    _notes.add(note);
-    notifyListeners();
+  void addTask(title,notesContents,noteId){
+    final note=Notes(title: title, notesContents: notesContents, id: noteId);
+    if(noteIndex< notes.length){
+      _notes[noteIndex]=note;
+      notifyListeners();
+    }
+    else{
+      _notes.add(note);
+      notifyListeners();
+
+    }
   }
   // void setTime(time){
   //   selectTime=time;

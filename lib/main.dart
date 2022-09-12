@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_to_do/Providers/to_do_list_provider.dart';
-import 'package:note_to_do/Providers/to_do_provider.dart';
 import 'package:note_to_do/Screens/add_to_do_screens/add_to_do_list_screen.dart';
 import 'package:note_to_do/Screens/note/note_pad.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ToDoProvider()),
         ChangeNotifierProvider(create: (context) => NoteProvider()),
         ChangeNotifierProvider(create: (context) => ToDoListProvider())
       ],

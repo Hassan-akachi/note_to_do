@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../Providers/notes_provider.dart';
 import '../../Widgets/notes/note_list.dart';
 import 'note_pad.dart';
 
@@ -15,6 +17,7 @@ class NoteScreen extends StatelessWidget {
       body: const NoteList(),
       floatingActionButton: FloatingActionButton(
         onPressed:(){
+          Provider.of<NoteProvider>(context, listen: false).noteIndex =Provider.of<NoteProvider>(context, listen: false).notes.length;
           Navigator.pushNamed(context, NotePad.routeName);
         },
         child: const Icon(Icons.edit),

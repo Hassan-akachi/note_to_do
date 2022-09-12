@@ -2,11 +2,13 @@
 import 'package:note_to_do/Models/to_do.dart';
 
 class ToDoList {
+   int id;
   final String title;
   late final DateTime createdListAt;
-   final List<ToDo> addtodo;
+   List<ToDo> addtodo;
 
   ToDoList({
+    required this.id,
     required this.title,
     required this.addtodo,
     DateTime? createdListAt, 

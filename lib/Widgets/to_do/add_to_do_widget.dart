@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:note_to_do/Models/to_do.dart';
 
-class ToDoWidget extends StatelessWidget {
-  final ToDo toDo;
+class ToDoWidget extends StatefulWidget {
+  final ToDo? toDo;
   final void Function(bool?) toggleCheck;
 
   const ToDoWidget(
@@ -13,18 +12,24 @@ class ToDoWidget extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ToDoWidget> createState() => _ToDoWidgetState();
+}
+
+class _ToDoWidgetState extends State<ToDoWidget> {
+  TextEditingController toDoController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController toDoController = TextEditingController();
-    toDoController.text = toDo.name ?? "";
+
+    toDoController.text = widget.toDo?.name ?? "";
     return ListTile(
         leading: Checkbox(
-          value: toDo.isChecked,
+          value: widget.toDo?.isChecked ?? false ,
           shape: const CircleBorder(side: BorderSide.none),
-          onChanged: toggleCheck,
+          onChanged: widget.toggleCheck,
         ),
-        title: toDo.isChecked
+        title: widget.toDo?.isChecked == true
             ? Text(
-                toDo.name,
+                widget.toDo!.name,
                 style: const TextStyle(
                     color: Colors.grey,
                     decoration: TextDecoration.lineThrough),
@@ -33,5 +38,11 @@ class ToDoWidget extends StatelessWidget {
                 controller: toDoController,
                 decoration: const InputDecoration(border: InputBorder.none),
               ),);
+  }
+
+  @override
+  void dispose() {
+    toDoController.dispose();
+    super.dispose();
   }
 }

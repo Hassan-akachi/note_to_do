@@ -3,7 +3,6 @@ import 'package:note_to_do/Widgets/to_do_list/to_dos_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../Providers/to_do_list_provider.dart';
-import '../../Providers/to_do_provider.dart';
 import '../add_to_do_screens/add_to_do_list_screen.dart';
 
 class ToDOListScreen extends StatelessWidget {
@@ -30,6 +29,7 @@ class ToDOListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:(){
+           Provider.of<ToDoListProvider>(context,listen: false).increaseTodolist();
             Navigator.pushNamed(context,AddToDoListScreen.routeName );
             },
         child: const Icon(Icons.add),

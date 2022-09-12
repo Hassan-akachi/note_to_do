@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:note_to_do/Providers/to_do_list_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../Providers/to_do_provider.dart';
 
 class AddToDo extends StatelessWidget {
   static const routeName = "Add-TO-DO-Screen";
@@ -27,6 +26,7 @@ class AddToDo extends StatelessWidget {
               inputTextController.text = value;
               Provider.of<ToDoListProvider>(context, listen: false)
                   .addTodo(inputTextController.text);
+              inputTextController.clear();
             },
             autofocus: true,
           ),
@@ -34,6 +34,7 @@ class AddToDo extends StatelessWidget {
             onPressed: () {
               Provider.of<ToDoListProvider>(context, listen: false)
                   .addTodo(inputTextController.text);
+              inputTextController.clear();
              FocusManager.instance.primaryFocus?.unfocus(); //dismiss keyboard
             },
             icon: const Icon(Icons.send),

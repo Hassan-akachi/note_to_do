@@ -17,6 +17,7 @@ class NotePad extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController notesContents = TextEditingController();
     final TextEditingController title = TextEditingController();
+    return Consumer<NoteProvider>(builder: (BuildContext context, state, Widget? child) {
     title.text =notes?.title ??"";
     notesContents.text =notes?.notesContents ?? "";
     DateTime now  =notes?.currentTime ?? DateTime.now();
@@ -31,8 +32,8 @@ class NotePad extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
           IconButton(
               onPressed: () {
-                Provider.of<NoteProvider>(context, listen: false)
-                    .addTask(title.text, notesContents.text);
+                    state.addTask(title.text, notesContents.text, state.noteIndex);
+                print( Provider.of<NoteProvider>(context, listen: false).noteIndex);
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.save))
@@ -71,6 +72,6 @@ class NotePad extends StatelessWidget {
         ),
       ),
     );
+    });
   }
-
 }
