@@ -10,7 +10,7 @@ class ToDoListProvider extends ChangeNotifier {
 
   int taskIndex = 0;
 
-  final List<ToDoList> _todolists = [
+  final List<ToDoList> innertodolists = [
     ToDoList(
       id: 1,
       addtodo: [ToDo(name: "to-do")],
@@ -29,20 +29,20 @@ class ToDoListProvider extends ChangeNotifier {
   DateTime selectTime = DateTime.now();
 
   UnmodifiableListView<ToDoList> get todolist {
-    return UnmodifiableListView(_todolists);
+    return UnmodifiableListView(innertodolists);
   }
 
   //upate todolist
   void addTask(title, todolistsContents, createdAt, idNum) {
-    if (_todolists[taskIndex].id == taskIndex) {
+    if (innertodolists[taskIndex].id == taskIndex) {
       //_todolists.map((e) => e.addtodo.add(todolistsContents)).toList();
-      _todolists[taskIndex].addtodo= todolistsContents;
+      innertodolists[taskIndex].addtodo= todolistsContents;
       final note = ToDoList(
           title: title,
           addtodo: todolistsContents,
           createdListAt: createdAt,
           id: idNum);
-      _todolists[taskIndex]= note;
+      innertodolists[taskIndex]= note;
       notifyListeners();
     }
   }
@@ -50,12 +50,12 @@ class ToDoListProvider extends ChangeNotifier {
   //create a new task
   void increaseTodolist() {
     final num = ToDoList(
-        id: _todolists.length,
+        id: innertodolists.length,
         title: '',
         addtodo: [ToDo(name: "note it 🗒️ check it ✔️", isChecked: true)]);
-    taskIndex = _todolists.length;
-    _todolists.add(num);
-    print("this is a new page index ${_todolists[taskIndex].id}");
+    taskIndex = innertodolists.length;
+    innertodolists.add(num);
+    print("this is a new page index ${innertodolists[taskIndex].id}");
     notifyListeners();
   }
 
@@ -65,12 +65,12 @@ class ToDoListProvider extends ChangeNotifier {
 
   //delete task
   void deleteTask(ToDoList todolist) {
-    _todolists.remove(todolist);
+    innertodolists.remove(todolist);
     notifyListeners();
   }
 
   void deleteAll(ToDoList toDoList) {
-    _todolists.clear();
+    innertodolists.clear();
   }
 
   //todos
@@ -85,7 +85,7 @@ class ToDoListProvider extends ChangeNotifier {
   // create a todos
   void addTodo(newInputText) {
     final todoName = ToDo(name: newInputText);
-    _todolists[taskIndex].addtodo.add(todoName);
+    innertodolists[taskIndex].addtodo.add(todoName);
     // _todolists.map((e) => e.addtodo.add(todoName));
     print("todo added");
     notifyListeners();
@@ -109,7 +109,7 @@ class ToDoListProvider extends ChangeNotifier {
   //delete task
 
   void deleteTodo(ToDo toDo) {
-    _todolists[taskIndex].addtodo.remove(toDo);
+    innertodolists[taskIndex].addtodo.remove(toDo);
     //_todolists.map((e) => e.addtodo.remove(stoDo));
     notifyListeners();
   }

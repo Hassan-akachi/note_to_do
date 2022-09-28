@@ -12,7 +12,7 @@ class AddToDoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ToDoListProvider>(builder: (BuildContext context, state, Widget? child) {
       return Scrollbar(
-        child: Align(alignment: Alignment.topCenter,
+        child: Align(alignment: Alignment.topRight,
           child: ListView.builder(
             padding: EdgeInsets.zero,
             reverse: true,

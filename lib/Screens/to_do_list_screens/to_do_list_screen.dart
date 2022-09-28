@@ -15,17 +15,21 @@ class ToDOListScreen extends StatelessWidget {
 
     return Scaffold(
        body:
-      Column(
-        children: [
-          Expanded(flex: 0,
-            child: Text(
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Column(
+          children: [
+            Text(
               "Total Todos- ${Provider.of<ToDoListProvider>(context).todolist.length}",
               style: const TextStyle(fontSize: 20),
             ),
-          ),
-          const Expanded(flex:2,
-              child:ToDosList()),
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            const Expanded(flex:2,
+                child:ToDosList()),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:(){

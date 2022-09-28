@@ -8,9 +8,14 @@ import 'package:provider/provider.dart';
 import '../../Screens/note/note_pad.dart';
 import '../../constants/colors.dart';
 
-class NoteList extends StatelessWidget {
+class NoteList extends StatefulWidget {
   const NoteList({Key? key}) : super(key: key);
 
+  @override
+  State<NoteList> createState() => _NoteListState();
+}
+
+class _NoteListState extends State<NoteList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteProvider>(
@@ -24,7 +29,7 @@ class NoteList extends StatelessWidget {
       return Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          child: ListView.builder(
+          child: ReorderableListView.builder(
             padding: EdgeInsets.zero,
             reverse: true,
             shrinkWrap: true,
@@ -33,7 +38,7 @@ class NoteList extends StatelessWidget {
               final note = state.notes[index];
 
               return Dismissible(
-                  key: Key(note.title),
+                  key: ValueKey(note),
                   background: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -56,6 +61,7 @@ class NoteList extends StatelessWidget {
                   child: Card(
                     color: tabColor(),
                     child: ListTile(
+                      key: ValueKey(note),
                       title: Text(note.title),
                       onTap: () {
                         state.noteIndex = index;
@@ -71,6 +77,14 @@ class NoteList extends StatelessWidget {
                   ));
             },
             itemCount: state.notes.length,
+            onReorder: (int oldIndex, int newIndex) {
+              setState((){
+                final index = newIndex > oldIndex ?newIndex -1 :newIndex;
+                final user = state.innernotes.removeAt(oldIndex);
+                state.innernotes.insert(index, user);
+
+              });
+            },
           ),
         ),
       );

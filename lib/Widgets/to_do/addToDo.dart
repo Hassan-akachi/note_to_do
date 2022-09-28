@@ -16,7 +16,7 @@ class AddToDo extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: ListTile(
           title: TextField(
             controller: inputTextController,

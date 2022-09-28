@@ -10,24 +10,24 @@ class NoteProvider extends ChangeNotifier{
 
   int noteIndex = 0;
 
-  final List<Notes>_notes=[
+  final List<Notes>innernotes=[
     Notes(title: "Muhammad", notesContents: "notesContents", id: 1)
   ];
   DateTime selectTime=DateTime.now();
 
 
   UnmodifiableListView<Notes> get notes{
-    return UnmodifiableListView(_notes);
+    return UnmodifiableListView(innernotes);
   }
 
   void addTask(title,notesContents,noteId){
     final note=Notes(title: title, notesContents: notesContents, id: noteId);
     if(noteIndex< notes.length){
-      _notes[noteIndex]=note;
+      innernotes[noteIndex]=note;
       notifyListeners();
     }
     else{
-      _notes.add(note);
+      innernotes.add(note);
       notifyListeners();
 
     }
@@ -45,7 +45,7 @@ class NoteProvider extends ChangeNotifier{
 
   //delete task
   void deleteTask(Notes notes){
-    _notes.remove(notes);
+    innernotes.remove(notes);
     notifyListeners();
   }
 

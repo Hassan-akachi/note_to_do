@@ -9,9 +9,14 @@ import 'package:provider/provider.dart';
 import '../../Screens/add_to_do_screens/add_to_do_list_screen.dart';
 import '../../constants/colors.dart';
 
-class ToDosList extends StatelessWidget {
+class ToDosList extends StatefulWidget {
   const ToDosList({Key? key}) : super(key: key);
 
+  @override
+  State<ToDosList> createState() => _ToDosListState();
+}
+
+class _ToDosListState extends State<ToDosList> {
   @override
   Widget build(BuildContext context) {
     Color? tabColor() {
@@ -26,9 +31,8 @@ class ToDosList extends StatelessWidget {
       return Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          child: ListView.builder(
+          child: ReorderableListView.builder(
             padding: EdgeInsets.zero,
-            controller: ScrollController(),
             reverse: true,
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
@@ -36,7 +40,7 @@ class ToDosList extends StatelessWidget {
               final todolistItem = state.todolist[index];
 
               return Dismissible(
-                  key: UniqueKey(),
+                  key: ValueKey(todolistItem),//UniqueKey(),
                   background: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -59,6 +63,7 @@ class ToDosList extends StatelessWidget {
                   child: Card(
                       color: tabColor(),
                       child: ListTile(
+                        key: ValueKey(todolistItem),
                           title: Text(todolistItem.title),
                           onTap: () {
                             Navigator.push(
@@ -78,6 +83,14 @@ class ToDosList extends StatelessWidget {
                           ))));
             },
             itemCount: state.todolist.length,
+            onReorder: (int oldIndex, int newIndex) {
+              setState((){
+                final index = newIndex > oldIndex ?newIndex -1 :newIndex;
+                final user = state.innertodolists.removeAt(oldIndex);
+                state.innertodolists.insert(index, user);
+
+              });
+            },
           ),
         ),
       );
