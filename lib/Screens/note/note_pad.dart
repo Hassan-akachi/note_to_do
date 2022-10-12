@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:note_to_do/constants/styles.dart';
+import 'package:note_to_do/Util/constant.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/note.dart';
 import '../../Providers/notes_provider.dart';
+import '../../Res/styles.dart';
+import '../../Widgets/set_time.dart';
+
 
 class NotePad extends StatefulWidget {
   static const routeName = "NotePad-Screen";
@@ -27,21 +30,19 @@ class _NotePadState extends State<NotePad> {
         builder: (BuildContext context, state, Widget? child) {
       title.text = widget.notes?.title ?? "";
       notesContentsController.text = widget.notes?.notesContents ?? "";
-      DateTime now = widget.notes?.currentTime ?? DateTime.now();
-      var formatter = DateFormat("yyy-MM-dd");
+      DateTime now = widget.notes?.createdListAt ?? DateTime.now();
       return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "NotePad",
-            style: TextStyle(fontSize: 20),
+          title:  Text(
+            widget.notes==null?"Create NotePad":"Edit NotePad",
+            style: const TextStyle(fontSize: 20),
           ),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.attachment)),
             IconButton(
                 onPressed: () {
                   state.addTask(
-                      title.text, notesContentsController.text, state.noteIndex);
+                      title.text, notesContentsController.text, state.noteIndex,now);
                   print(Provider.of<NoteProvider>(context, listen: false)
                       .noteIndex);
                   Navigator.pop(context);
@@ -65,10 +66,7 @@ class _NotePadState extends State<NotePad> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                "${formatter.format(now)}   ${DateFormat('EEE,hh:mm a').format(now)}",
-                style: const TextStyle(fontSize: 20),
-              ),
+              SetTime(now:now,widgetUse: WidgetUse.note,),
               const SizedBox(
                 height: 20,
               ),

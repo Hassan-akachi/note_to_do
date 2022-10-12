@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:note_to_do/Providers/to_do_list_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../Res/colors.dart';
 import '../../Screens/add_to_do_screens/add_to_do_list_screen.dart';
-import '../../constants/colors.dart';
+
 
 class ToDosList extends StatefulWidget {
   const ToDosList({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _ToDosListState extends State<ToDosList> {
               final todolistItem = state.todolist[index];
 
               return Dismissible(
-                  key: ValueKey(todolistItem),//UniqueKey(),
+                  key: ValueKey(todolistItem), //UniqueKey(),
                   background: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -63,8 +64,9 @@ class _ToDosListState extends State<ToDosList> {
                   child: Card(
                       color: tabColor(),
                       child: ListTile(
-                        key: ValueKey(todolistItem),
+                          key: ValueKey(todolistItem),
                           title: Text(todolistItem.title),
+                          leading: const Icon(Icons.drag_indicator_outlined),
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -72,23 +74,23 @@ class _ToDosListState extends State<ToDosList> {
                                     builder: (context) => AddToDoListScreen(
                                         toDoLists: todolistItem)));
                             state.taskIndex = index;
-                            todolistItem.id =state.taskIndex;
-                            print("${state.taskIndex } ,list num id ${todolistItem.id}");
+                            todolistItem.id = state.taskIndex;
+                            print(
+                                "${state.taskIndex} ,list num id ${todolistItem.id}");
                           },
                           trailing: Text(
                             DateFormat('EEE,hh:mm a')
-                                .format(todolistItem.createdListAt),
+                                .format(todolistItem.createdListAt ?? DateTime.now()),
                             style: const TextStyle(
                                 fontSize: 14, color: Colors.grey),
                           ))));
             },
             itemCount: state.todolist.length,
             onReorder: (int oldIndex, int newIndex) {
-              setState((){
-                final index = newIndex > oldIndex ?newIndex -1 :newIndex;
+              setState(() {
+                final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
                 final user = state.innertodolists.removeAt(oldIndex);
                 state.innertodolists.insert(index, user);
-
               });
             },
           ),

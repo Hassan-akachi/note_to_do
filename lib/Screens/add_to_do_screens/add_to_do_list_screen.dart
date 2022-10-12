@@ -7,7 +7,7 @@ import 'package:note_to_do/Widgets/to_do/addToDo.dart';
 import 'package:note_to_do/Widgets/to_do/add_to_do_list.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/styles.dart';
+import '../../Res/styles.dart';
 
 class AddToDoListScreen extends StatelessWidget {
   static const routeName = "Add-TO-DO-Screen";
@@ -25,9 +25,9 @@ class AddToDoListScreen extends StatelessWidget {
       var formatter = DateFormat("yyy-MM-dd");
       return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "TODO",
-            style: TextStyle(fontSize: 20),
+          title: Text(
+            toDoLists == null ? "Create Todo" : "Edit Todo",
+            style: const TextStyle(fontSize: 20),
           ),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
@@ -37,7 +37,8 @@ class AddToDoListScreen extends StatelessWidget {
                       title.text,
                       state.todolist[state.taskIndex].addtodo,
                       now,
-                      state.taskIndex);
+                      state.taskIndex,
+                      toDoLists?.isSwitched);
                   Navigator.pop(context);
                 },
                 icon: const Icon(Icons.save))
@@ -69,24 +70,25 @@ class AddToDoListScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true, minTime: DateTime.now(),
-                        // maxTime: DateTime(2023, 6, 7),
-                        onChanged: (date) {
-                      print('change $date');
-                    }, onConfirm: (date) {
-                      // if (inputTextController.text.isNotEmpty) {
-                      //   Provider.of<ToDoProvider>(context, listen: false)
-                      //       .addTask(inputTextController.text, date);
-                      now = date;
-                    }, currentTime: DateTime.now(), locale: LocaleType.en);
-                  }, //language},
-                  child: Text(
-                    "${formatter.format(now)}   ${DateFormat('EEE,hh:mm a').format(now)}",
-                    style: const TextStyle(fontSize: 20),
-                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        state.setTime(now, context);
+                      },
+                      child: Text(
+                        "${formatter.format(now)}   ${DateFormat('EEE,hh:mm a').format(now)}",
+                        style: const TextStyle(fontSize: 20),
+                      )),
+                  Switch(
+                      value: toDoLists?.isSwitched ?? false,
+                      onChanged: (isSet) {
+
+                           state.updateSwitch(toDoLists);
+                      })
+                ],
+              ),
               const SizedBox(
                 height: 20,
               ),

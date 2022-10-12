@@ -37,7 +37,7 @@ class AddToDo extends StatelessWidget {
               inputTextController.clear();
              FocusManager.instance.primaryFocus?.unfocus(); //dismiss keyboard
             },
-            icon: const Icon(Icons.send),
+            icon: const Icon(Icons.send,size: 30,),
           ),
         ));
   }

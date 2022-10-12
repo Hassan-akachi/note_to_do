@@ -33,8 +33,8 @@ class ToDOListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:(){
-           Provider.of<ToDoListProvider>(context,listen: false).increaseTodolist();
             Navigator.pushNamed(context,AddToDoListScreen.routeName );
+            Provider.of<ToDoListProvider>(context,listen: false).increaseTodolist();
             },
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

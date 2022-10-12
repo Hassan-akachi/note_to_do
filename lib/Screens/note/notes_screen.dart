@@ -19,7 +19,7 @@ class NoteScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Provider.of<NoteProvider>(context, listen: false).noteIndex =
-              Provider.of<NoteProvider>(context, listen: false).notes.length;
+               Provider.of<NoteProvider>(context, listen: false).notes.length;
           Navigator.pushNamed(context, NotePad.routeName);
         },
         child: const Icon(Icons.edit),

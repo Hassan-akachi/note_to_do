@@ -2,11 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:note_to_do/Providers/notes_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../Res/colors.dart';
 import '../../Screens/note/note_pad.dart';
-import '../../constants/colors.dart';
+
+
 
 class NoteList extends StatefulWidget {
   const NoteList({Key? key}) : super(key: key);
@@ -63,6 +66,7 @@ class _NoteListState extends State<NoteList> {
                     child: ListTile(
                       key: ValueKey(note),
                       title: Text(note.title),
+                      leading: const Icon(Icons.drag_indicator_outlined),
                       onTap: () {
                         state.noteIndex = index;
                         print(state.noteIndex);
@@ -73,6 +77,12 @@ class _NoteListState extends State<NoteList> {
                                       notes: note,
                                     )));
                       },
+                        trailing: Text(
+                          DateFormat('EEE,hh:mm a')
+                              .format(note.createdListAt),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.grey),
+                        )
                     ),
                   ));
             },
