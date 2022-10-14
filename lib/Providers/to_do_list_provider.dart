@@ -10,6 +10,8 @@ class ToDoListProvider extends ChangeNotifier {
   bool isToggle = false;
 
   int taskIndex = 0;
+  DateTime setTimer = DateTime.now();
+  bool isSwitched =false;
 
   final List<ToDoList> innertodolists = [
     ToDoList(
@@ -17,7 +19,7 @@ class ToDoListProvider extends ChangeNotifier {
       addtodo: [ToDo(name: "to-do")],
       title: "Muhammad",
       //this is the model class
-      createdListAt: DateTime.now(),
+      createdListAt: DateTime.now(), isSwitched: false,
     ),
     ToDoList(
       title: "hassan",
@@ -50,11 +52,13 @@ class ToDoListProvider extends ChangeNotifier {
 
   //create a new task
   void increaseTodolist() {
+    taskIndex = innertodolists.length;
+     setTimer = DateTime.now();
+    isSwitched =false;
     final num = ToDoList(
         id: innertodolists.length,
         title: '',
-        addtodo: [ToDo(name: "note it 🗒️ check it ✔️", isChecked: true)], createdListAt: DateTime.now(),isSwitched: false );
-    taskIndex = innertodolists.length;
+        addtodo: [ToDo(name: "note it 🗒️ check it ✔️", isChecked: true)], createdListAt: setTimer, isSwitched: isSwitched, );
     innertodolists.add(num);
     print("this is a new page index ${innertodolists[taskIndex].id}");
     notifyListeners();
@@ -68,16 +72,19 @@ class ToDoListProvider extends ChangeNotifier {
         onChanged: (date) {
           print('change $date');
         }, onConfirm: (date) {
-          now = date;
-          innertodolists[taskIndex].createdListAt =now;
+          setTimer = date;
+          innertodolists[taskIndex].createdListAt =setTimer;
           notifyListeners();
           print('confirm $now');
         }, currentTime: DateTime.now(), locale: LocaleType.en);
+
     notifyListeners();
   }
 
   //update switch
   void updateSwitch(ToDoList? toDoList) {
+    isSwitched = !isSwitched;
+    innertodolists[taskIndex].isSwitched =isSwitched;
     toDoList?.toggleSwitched();
     notifyListeners();
   }

@@ -12,9 +12,9 @@ class ToDoList {
     required this.id,
     required this.title,
     required this.addtodo,
-    required this.createdListAt,
-    this.isSwitched=false,
-   }); //: createdListAt = createdListAt ?? DateTime.now();
+    required this.createdListAt,//DateTime? createdListAt
+    required this.isSwitched,
+   }); //:this.createdListAt = createdListAt ?? DateTime.now();
 
    void toggleSwitched(){
      isSwitched = !isSwitched;

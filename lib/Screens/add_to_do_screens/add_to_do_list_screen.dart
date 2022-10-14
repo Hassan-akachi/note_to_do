@@ -9,24 +9,30 @@ import 'package:provider/provider.dart';
 
 import '../../Res/styles.dart';
 
-class AddToDoListScreen extends StatelessWidget {
+class AddToDoListScreen extends StatefulWidget {
   static const routeName = "Add-TO-DO-Screen";
   final ToDoList? toDoLists;
 
   const AddToDoListScreen({super.key, this.toDoLists});
 
   @override
+  State<AddToDoListScreen> createState() => _AddToDoListScreenState();
+}
+
+class _AddToDoListScreenState extends State<AddToDoListScreen> {
+  @override
   Widget build(BuildContext context) {
     return Consumer<ToDoListProvider>(
         builder: (BuildContext context, state, Widget? child) {
+      final taskid=state.todolist[state.taskIndex].id;
       final TextEditingController title = TextEditingController();
-      title.text = toDoLists?.title ?? "";
-      DateTime now = toDoLists?.createdListAt ?? DateTime.now();
+      title.text = widget.toDoLists?.title ?? "";
+      DateTime now = widget.toDoLists?.createdListAt ?? state.setTimer;
       var formatter = DateFormat("yyy-MM-dd");
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            toDoLists == null ? "Create Todo" : "Edit Todo",
+            widget.toDoLists == null ? "Create Todo" : "Edit Todo",
             style: const TextStyle(fontSize: 20),
           ),
           actions: [
@@ -38,7 +44,7 @@ class AddToDoListScreen extends StatelessWidget {
                       state.todolist[state.taskIndex].addtodo,
                       now,
                       state.taskIndex,
-                      toDoLists?.isSwitched);
+                      widget.toDoLists?.isSwitched ??state.todolist[taskid].isSwitched);
                   Navigator.pop(context);
                 },
                 icon: const Icon(Icons.save))
@@ -50,7 +56,7 @@ class AddToDoListScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Todos- ${state.todolist[state.taskIndex].addtodo.length ?? 0}",
+                "Total Todos- ${widget.toDoLists ==null ? state.todolist[state.taskIndex].addtodo.length : 0}",
                 //Provider.of<ToDoListProvider>(context).todolist.map((e) => e.addtodo.length)
                 style: const TextStyle(fontSize: 20),
               ),
@@ -75,24 +81,26 @@ class AddToDoListScreen extends StatelessWidget {
                 children: [
                   TextButton(
                       onPressed: () {
-                        state.setTime(now, context);
+                        setState((){
+                        state.setTime(now, context);});
                       },
                       child: Text(
                         "${formatter.format(now)}   ${DateFormat('EEE,hh:mm a').format(now)}",
                         style: const TextStyle(fontSize: 20),
                       )),
                   Switch(
-                      value: toDoLists?.isSwitched ?? false,
+                      value: widget.toDoLists?.isSwitched ?? state.isSwitched,
                       onChanged: (isSet) {
-
-                           state.updateSwitch(toDoLists);
+                           state.updateSwitch(widget.toDoLists);
                       })
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Expanded(flex: 2, child: AddToDoList()),
+            widget.toDoLists ==null?
+              const Expanded(flex: 2, child: AddToDoList()) :
+              const Expanded(child: Center(child: Text('Empty'))),
               const Align(alignment: Alignment.bottomCenter, child: AddToDo())
             ],
           ),

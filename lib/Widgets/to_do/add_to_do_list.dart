@@ -19,7 +19,7 @@ class AddToDoList extends StatelessWidget {
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              final todo =state.todolist[state.taskIndex].addtodo?[index];
+              final todo =state.todolist[state.taskIndex].addtodo[index];
               //state.todolist.map((e) => e.addtodo[index]).toList();
 
               return Dismissible(
@@ -40,11 +40,11 @@ class AddToDoList extends StatelessWidget {
                   ],
                 ),
                 onDismissed: (direction) {
-                  state.deleteTodo(todo!);
+                  state.deleteTodo(todo);
                 },
                 key: UniqueKey(),
                 child: ToDoWidget(
-                  toggleCheck:(value)=> state.updateTodo(todo!),
+                  toggleCheck:(value)=> state.updateTodo(todo),
                   toDo: todo,
                 ),
               );
